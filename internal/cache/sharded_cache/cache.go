@@ -32,7 +32,7 @@ func (s *ShardedCache) Get(key string) (interface{}, bool) {
 }
 
 func (s *ShardedCache) Set(k string, v interface{}, ttl time.Duration) {
-	shard := int(uint(maphash.Comparable[string](s.seed, k)) % uint(len(s.shards)))
+	shard := maphash.Comparable[string](s.seed, k) % uint64(len(s.shards))
 
 	s.shards[shard].Set(k, v, ttl)
 }
