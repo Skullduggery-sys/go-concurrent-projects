@@ -26,7 +26,7 @@ func New(shardsNumber int) *ShardedCache {
 }
 
 func (s *ShardedCache) Get(key string) (interface{}, bool) {
-	shard := int(uint(maphash.Comparable[string](s.seed, key)) % uint(len(s.shards)))
+	shard := maphash.Comparable[string](s.seed, key) % uint64(len(s.shards))
 
 	return s.shards[shard].Get(key)
 }
